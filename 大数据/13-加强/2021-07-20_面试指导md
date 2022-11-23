@@ -1,0 +1,111 @@
+1-梳理面试遇到的问题
+	面试中常见的问题：
+	1-Spark的容错机制？
+	答：首先Spark会从内存中查看数据是否被Cache或Persist
+	如果没有的在从checkpoint中查找是否持久化到HDFS或本地文件磁盘中
+	如果都没有直接根据依赖链构建血缘关系重建RDD
+	
+
+​	2-如果Checkpoint什么时候能够将检查点本地或HDFS中？
+​	(must be HDFS path if running in cluster)
+
+​	3-如果Checkpoint将数据防止在HDFS中，如果HDFS中有一个文件Block丢失，会报什么错？
+​	can't found file 
+
+​	4-如果上述的问题都没有遇到，我在面试的时候如何回答？
+​	答案：面试官您好，我在工作中没有遇到这种情况，但是我遇到了其他的问题，给您介绍一下其他的问题....
+​	5-比如提交Spark任务的时候，如何根据实际的数据量预估executor和driver的数量？
+​	Driver：启动SparkContext的地方就是Driver端，申请资源的(内存和Cpu资源)
+​	Executor：通过Worker节点中的Executor实现真正的计算
+​	executor-momery：每一个executor内存
+​	executor-cores：CpuCores每一个executor有多少cpucores
+​	num-executors：N
+​	内存：num-executors*executor-momery=executor总内存
+​	CPU： cpucores：num-executors*executor-cores总cpucores
+​	为了更好利用cpu的资源，设置executor-cores一般是cpu核心数的2-3倍，如此可以榨干Cpu资源；
+​	在内存中分为storage和execution，在execution中存放shuffle数据，可以借助动态内存占用机制借用内存；
+​	Spark执行流程：
+​		1-Driver获取资源 
+​		2-构建DAG 
+​		3-交由DAGScheduler进行Stage的划分
+​		4-将Stage交由TaskScheduler提交，对于失败的任务会拉取其他线程执行 （推测执行）
+​		5-最终通过集群资源管理器交由Worker节点的Executor的线程执行每个rdd的分区的数据
+​	Spark的关键概念：
+​		Spark的WebUi是多少呢 4040
+​		Spark的Master的WebUi 8080
+​		Spark的HistoryServer的WebUi是多少呢  18080
+​		Hadoop3.3.0的版本中HDFS的通信端口变成了9820，Hadoop2.x是8020
+​		Hadoop3.x中hdfs的web端口号http://node1:9870/dfshealth.html#tab-overview   
+​		hadoop2.x http://node1:50070/
+​		大数据中的端口号：通信端口(9820通信端口) 和Webui端口(9870查看WebUi)
+​		总结：
+​		1个Spark的应用就是一个Spark的Application
+​		1个SparkApplication中有若干个Job
+​		1个Job中有若干个Stages
+​		1个Stages有很多Taskset组成
+​		1个TaskSet对应一个RDD，一个TaskSet中有很多Task组成
+​		每个RDD的分区交由Task线程执行
+​	推测执行：
+​		在spark作业运行中，一个spark作业会构成一个DAG调度图，一个DAG又切分成多个stage，一个stage由多个Tesk组成，一个stage里面的不同task的执行时间可能不一样，有的task很快就执行完成了，而有的可能执行很长一段时间也没有完成。造成这种情况的原因可能是集群内机器的配置性能不同、网络波动、或者是由于数据倾斜引起的。而推测执行(speculative)就是当出现同一个stage里面有task长时间完成不了任务，spark就会在不同的executor上再启动一个task来跑这个任务，然后看哪个task先完成，就取该task的结果，并kill掉另一个task。其实对于集群内有不同性能的机器开启这个功能是比较有用的。
+​	6-比如说数据倾斜，然后自己跳入自己挖的坑了。
+​	7-Yarn的资源调度的流程？
+​	 Driver---- AppMaster应用管理器-----ResourmeManager
+​	 NodeManager---- Continer容器(虚拟机)----Task任务
+​	 AppMaster应用管理器在Driver和RS解耦
+​	 Continer在NodeManager和Task任务之间解耦
+
+2-如何年薪百万回答技术问题-怎么讲技术
+	你对Spark的RDD是如何理解的？
+		1-讲解RDD是什么
+		2-讲解RDD的原理是什么
+		3-RDD在工作中怎么使用
+		4-RDD的优化
+		5-引出Spark的RDD的宽窄依赖
+		对于日常工作中常用的昂贵的算子都会使用cache或persist方法将数据
+		缓存在内存或本地磁盘中，如果考虑到安全性，需要使用checkpoint可以
+		将数据和元数据放置在hdfs的分布式文件系统中
+	SparkSQL的执行流程？
+		1-SparkSQL的执行流程？
+		2-SparkSQL工作中怎么用
+		3-SparkSQL有常见优化方式方法
+
+​		4-有没有更好的方案
+​		追问问题：rdd.unpersist或df.uncache，如果没有显示调用方法，使用什么算法自动释放内存？
+​		LRU：最近最少使用
+​		追问问题：spark.sql.shuffle.partitions	200 发生shuffle时候的数量分区的数量是200
+​	
+
+	Spark3.0新特性自适应查询执行
+		自适应查询执行(AQE)是Spark SQL 中的一种优化技术，
+		它利用运行时统计信息来选择最有效的查询执行计划。
+		默认情况下禁用 AQE。
+		Spark SQL 可以使用的配置spark.sql.adaptive.enabled来控制是否打开/关闭它。
+		从 Spark 3.0 开始，AQE 有三大特性，
+		包括合并post-shuffle分区、将sort-merge join转换为广播join 和 skew join优化。
+		spark.sql.adaptive.enabled和spark.sql.adaptive.skewJoin.enabled配置同时启用时生效。
+		
+	Spark的Shuffle？	
+		1，在普通模式下，数据会先写入一个内存数据结构中，Map或Array，5M
+		2，接着，每写一条数据进入内存数据结构之后，就会判断是否达到了某个临界值
+		3，在溢写到磁盘文件之前，会先根据key对内存数据结构中已有的数据进行排序，排序之后，会分批将数据写入磁盘文件。
+		4，最后会将之前所有的临时文件都进行合并
+	Shuffle Writer有几种？
+		ByPassSortShuffleWriter(不是聚合类的算子，200分区) UnsafeSuffleWriter，sortSuffleWriter
+	累加器：
+		定义累计器之后执行累加，只有触发Action操作才能够得到结果
+		如果在触发action之后，又一次触发action会发生什么现象？
+		scala> val counter2 = sc.longAccumulator("counter") 
+		counter2: org.apache.spark.util.LongAccumulator = LongAccumulator(id: 227, name: Some(counter), value: 0)
+		scala>  val rdd2=sc.parallelize(Seq(1, 2, 3, 4, 5)) .map(counter2.add(_)).cache() 
+		rdd2: org.apache.spark.rdd.RDD[Unit] = MapPartitionsRDD[9] at map at <console>:26
+
+3-如何年薪百万回答业务问题-怎么讲项目，需要准备哪些？
+	1-我最近做的XXX项目是基于XXX集团旗下XXX业务为了完成XXXX任务实现大数据平台
+	2-使用了什么技术，达到了什么业务目标，实现了什么指标
+	3-整个项目数据量多大，集群规模多大，目前项目效果如何
+	4-接下来跟您讲一讲整个项目架构
+	5-给您说一下我在项目中负责的点是什么，讲解一个具体的指标，让您更加了解我们的项目
+	6-整个项目中遇到的哪些难题，如何应对的策略
+4-大厂架构(Lambda架构和Kappa架构)
+5-两个同学录音一起听一下有什么问题，优点
+6-一起挨着沟通，大家提出自己遇到的问题
