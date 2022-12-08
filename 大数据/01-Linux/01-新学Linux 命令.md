@@ -15,6 +15,41 @@ grep 命令可以对文件进行文本查询
 grep lang anaconda-ks.cfg #在文件中查找lang
 ```
 
+# ps命令
+
+#**top**  查看哪个进程使用CPU过高
+
+#**ps -ef | grep** 34405  查看该进程详情
+
+``` shell
+[hadoop@fdc08 ~]$ top  # 查看哪个进程使用CPU过高
+top - 18:11:46 up 24 days,  2:27,  3 users,  load average: 29.19, 25.05, 21.52
+Tasks: 647 total,   1 running, 646 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 18.4 us,  2.8 sy,  0.0 ni, 77.8 id,  0.2 wa,  0.0 hi,  0.8 si,  0.0 st
+KiB Mem : 52806886+total, 58909756 free, 97759440 used, 37139968+buff/cache
+KiB Swap:  4194300 total,  4194300 free,        0 used. 42918742+avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                                              
+34405 yarn      20   0   14.0g   5.0g  57204 S 297.2  1.0  11:51.00 java                                                 
+39593 yarn      20   0 3159960   1.1g  56548 S 247.0  0.2   7:16.22 java                                                 
+34409 yarn      20   0   13.9g   5.1g  57208 S 209.1  1.0  10:00.24 java                                                 
+34408 yarn      20   0   14.0g   5.0g  57208 S 149.5  1.0  11:01.02 java                                                 
+32451 yarn      20   0 7702672   2.7g  51772 S 110.8  0.5   6:38.54 java                                                 
+34410 yarn      20   0   14.0g   5.0g  57204 S 106.3  1.0   7:00.06 java                                                 
+22290 kafka     20   0   24.3g   1.5g  27204 S  86.4  0.3  13:17.89 java                                                 
+40855 yarn      20   0 4412892   1.3g  56796 S  57.8  0.3   4:00.98 java                                                 
+ 5028 hbase     20   0   22.8g  11.8g  28236 S  49.1  2.3 156:33.67 java                                                 
+57451 hadoop    20   0   25.4g   7.3g 122468 S  35.5  1.5   3194:20 prometheus                                           
+33943 yarn      20   0 2889404 487128  51640 S   6.3  0.1   0:47.45 java                                                 
+35451 yarn      20   0   13.8g  10.9g  56788 S   4.9  2.2  16:22.71 java                                                 
+[hadoop@fdc08 ~]$ ps -ef | grep 34405  #查看该进程详情
+yarn     34405 34160 99 18:07 ?        00:12:20 /usr/java/jdk1.8.0_144/bin/java -Xmx10871635848 -Xms10871635848 -XX:MaxDirectMemorySize=1207959552 -XX:MaxMetaspaceSize=268435456 -Dlog4j2.formatMsgNoLookups=true -Dlog.file=/data/yarn/container-logs/application_1669975154853_0002/container_e07_1669975154853_0002_01_000016/taskmanager.log -Dlog4j.configuration=file:./log4j.properties -Dlog4j.configurationFile=file:./log4j.properties org.apache.flink.yarn.YarnTaskExecutorRunner -D taskmanager.memory.framework.off-heap.size=134217728b -D taskmanager.memory.network.max=1073741824b -D taskmanager.memory.network.min=1073741824b -D taskmanager.memory.framework.heap.size=134217728b -D taskmanager.memory.managed.size=8053063800b -D taskmanager.cpu.cores=2.0 -D taskmanager.memory.task.heap.size=10737418120b -D taskmanager.memory.task.off-heap.size=0b -D taskmanager.memory.jvm-metaspace.size=268435456b -D taskmanager.memory.jvm-overhead.max=1073741824b -D taskmanager.memory.jvm-overhead.min=1073741824b --configDir . -Djobmanager.rpc.address=fdc03 -Dweb.port=0 -Djobmanager.memory.off-heap.size=134217728b -Dweb.tmpdir=/tmp/flink-web-a626393a-ce63-4f1b-8376-39d8dad39e3e -Djobmanager.rpc.port=37164 -Drest.address=fdc03 -Djobmanager.memory.jvm-overhead.max=214748368b -Djobmanager.memory.jvm-overhead.min=214748368b -Dtaskmanager.resource-id=container_1669975154853_0002_01_000016 -Dinternal.taskmanager.resource-id.metadata=fdc08:8041 -Djobmanager.memory.jvm-metaspace.size=268435456b -Djobmanager.memory.heap.size=1530082096b
+hadoop   42374 25277  0 18:11 pts/1    00:00:00 grep --color=auto 34405
+[hadoop@fdc08 ~]$ 
+```
+
+
+
 
 
 # 用户创建和密码设置

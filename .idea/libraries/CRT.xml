@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CRT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/大数据/01-Linux/CRT.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

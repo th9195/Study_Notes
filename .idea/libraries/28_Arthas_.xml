@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="28-Arthas_阿尔萨斯">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/大数据/28-Arthas_阿尔萨斯/arthas-packaging-3.6.7-doc.zip!/" />
+      <root url="jar://$PROJECT_DIR$/大数据/28-Arthas_阿尔萨斯/arthas-packaging-3.6.7-bin.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
