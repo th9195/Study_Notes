@@ -189,5 +189,90 @@ scrape_configs:
 
 
 
+# 6- Flink 整合prometheus 和 Grafana
+
+## 6-1 组件结构
+
+- Flink
+  - Flink-Job
+- prometheus
+  - pushgateway
+    - 收集Flink App中的metrics;
+  - node_exporter
+    - 收集Linux服务器中的metrics;
+- Grafana 
+  - 
+
+
+
+## 6-2 架构草图
+
+![image-20221210112826472](images/image-20221210112826472.png)
+
+## 6-3 包下载
+
+### 6-3-1 prometheus
+
+- https://prometheus.io/download/
+- https://github.com/prometheus/prometheus/releases/download/v2.40.6/prometheus-2.40.6.linux-amd64.tar.gz
+
+
+
+
+
+### 6-3-2 pushgateway
+
+- https://prometheus.io/download/
+- https://github.com/prometheus/pushgateway/releases/download/v1.5.1/pushgateway-1.5.1.linux-amd64.tar.gz
+
+
+
+### 6-3-3 node_exporter
+
+- https://prometheus.io/download/
+
+- https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
+
+
+
+## 6-4 Flink整合配置
+
+### 6-4-1 拷贝flink 插件 jar包
+
+- 拷贝flink的prometheus 插件 jar 包到lib
+
+``` shell
+cd ${FLINK_HOME}/plugins/metrics-prometheus/
+cp flink-metrics-prometheus-1.14.3.jar ${FLINK_HOME}/lib  #如: /opt/apps/flink-1.14.3/lib
+```
+
+- 修改flink配置文件
+
+``` shell
+cd ${FLINK_HOME}/conf/
+vim flink-conf.yaml
+```
+
+``` properties
+#### 与 Prometheus 集成配置 ####
+
+# pushgateway接口全路径
+metrics.reporter.promgateway.class: org.apache.flink.metrics.prometheus.PrometheusPushGatewayReporter
+
+# pushgateway 的主机名
+metrics.reporter.promgateway.host: 10.1.10.110
+
+# pushgateway 的端口
+metrics.reporter.promgateway.port: 9091
+
+# Flink metric 在前端展示的标签(前缀) 与 随机后缀
+metrics.reporter.promgateway.jobName: hzwJob
+metrics.reporter.promgateway.randomJobNameSuffix: true
+metrics.reporter.promgateway.deleteOnShutdown: true
+
+# 采集数据间隔时间
+metrics.reporter.promgateway.interval: 30 SECONDS
+```
+
 
 
