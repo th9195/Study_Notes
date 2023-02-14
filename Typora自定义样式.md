@@ -174,6 +174,8 @@ Note right of C: 没人陪我玩
 
 # 6- 快捷键
 
+
+
 ``` properties
 windows快捷键：#
 无序列表：输入-之后输入空格
@@ -190,6 +192,7 @@ windows快捷键：#
 搜索：ctrl+f
 替换：ctrl+h
 引用：输入>之后输入空格
+代码串：Ctrl+Shift+~ 或者反引号：Hello typora
 代码块：ctrl+alt+f
 加粗：ctrl+b
 倾斜：ctrl+i

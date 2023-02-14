@@ -624,7 +624,7 @@ env.getCheckpointConfig().setMaxConcurrentCheckpoints(1);//默认为1
        3, // 每个测量时间间隔最大失败次数
        Time.of(5, TimeUnit.MINUTES), // 失败率测量的时间间隔 (5分钟内部允许重启3次)
        Time.of(10, TimeUnit.SECONDS) // 两次连续重启的时间间隔
-     )
+        )
 
 ``` properties
 4.失败率重启策略
@@ -991,6 +991,29 @@ yarn application -kill application_1614825325070_0005
 
 
 
+## 3-4 手动kill taskmanager 
+
+1. 确定节点 和 container
+   - 根据FlinkWeb界面查看taskmanager 跑在哪个节点上 以及 container 名称
+
+   ![1673405631631](assets/1673405631631.png)
+
+2. 登陆节点
+
+   ![1673405774866](assets/1673405774866.png)
+
+3. ps -ef | grep containerxxxxxx  查询container进程ID
+
+   ![1673405970251](assets/1673405970251.png)
+
+4. sudo kill 子进程ID， **注意: 不能使用kill -9** 
+
+   ![1673406049028](assets/1673406049028.png)
+
+
+
+
+
 # 4- 总结-面试题
 
 ## 4-1 对比State和Checkpoint
@@ -1067,7 +1090,7 @@ yarn application -kill application_1614825325070_0005
     	3, // 每个测量时间间隔最大失败次数
     	Time.of(5, TimeUnit.MINUTES), // 失败率测量的时间间隔 ([**5分钟内部允许重启3次**]())
     	Time.of(10, TimeUnit.SECONDS) // 两次连续[**重启的时间间隔**]()
-    )
+      )
 
 
 
