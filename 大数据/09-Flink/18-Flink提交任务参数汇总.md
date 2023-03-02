@@ -29,5 +29,14 @@
 
 
 
+## 4- 设置dump文件
+
+``` reStructuredText
+-yD env.java.opts=
+"-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/dump.hprof"
+```
+
+![1676359238784](assets/1676359238784.png)
+
 
 

@@ -23,34 +23,36 @@
 
 
 
-## 5- jinfo 命令 
-
-
-
-## 6- jmap命令
-
-- jmap -heap  PID
-- jmap -histo PID
+## 5- jvm 命令行工具 
 
 ``` properties
-#查看整个JVM内存状态 
-jmap -heap [pid]
-#要注意的是在使用CMS GC 情况下，jmap -heap的执行有可能会导致JAVA 进程挂起
- 
-#查看JVM堆中对象详细占用情况
-jmap -histo [pid]
- 
-#导出整个JVM 中内存信息
-jmap -dump:format=b,file=文件名 [pid]
+#登陆服务器节点 密码: Passw00rd
+ssh fdc05  
+
+# 登陆yarn 用户
+sudo -su yarn 
+
+#加载JAVA_HOME # 加载PATH
+export JAVA_HOME=/usr/java/jdk1.8.0_144
+export PATH=$JAVA_HOME/bin:$PATH
+
+# jinfo 命令
+jinfo -flags 13145
+
+# jstat 命令
+jstat -gcutil 13145
+jstat -gcutil 13145 1000 3
+
+# jmap 命令
+jmap -heap 13145
+jmap -histo:live 13145 | grep com.hzw
+jmap -finalizerinfo 13145
+# 生成dump 文件
+jmap -dump:live,format=b,file=/tmp/dump.hprof  13145
+cd /tmp
+ls -shal 
+sz dump.hprof
 ```
-
-
-
-![1676278274859](assets/1676278274859.png)
-
-![1676278247011](assets/1676278247011.png)
-
-
 
 
 
