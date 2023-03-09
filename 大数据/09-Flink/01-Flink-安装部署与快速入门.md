@@ -430,7 +430,7 @@ start-all.sh
 
 - 1.启动集群
 
-注意： 需要先启动hadoop	
+	意： 需要先启动hadoop	
 
   /export/server/flink-1.12.0/bin/start-cluster.sh
 
