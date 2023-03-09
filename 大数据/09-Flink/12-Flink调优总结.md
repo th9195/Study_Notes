@@ -43,7 +43,9 @@ https://ci.apache.org/projects/flink/flink-docs-release-1.13/deployment/config.h
 
 ![image-20220511164705373](images/image-20220511164705373.png)
 
-![image-20220511165216988](images/image-20220511165216988.png)
+
+
+![FlinkTaskManager内存分布](12-Flink调优总结.assets/FlinkTaskManager内存分布.png)
 
 #### 1-1-1-1 内存模型详解
 
