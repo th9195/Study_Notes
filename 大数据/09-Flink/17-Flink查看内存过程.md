@@ -13,11 +13,17 @@
 - 根据containerID 查询 进程ID
 - containerID   :  container_1671428673955_0719_01_000003 
 
+`ps -ef | grep  container_1671428673955_0719_01_000003`
+
 ![1676270608434](assets/1676270608434.png)
 
 ## 4- 查询top信息
 
 - 根据进程ID 查询top信息
+
+`top -p 5071`
+
+C
 
 ![1676270684437](assets/1676270684437.png)
 

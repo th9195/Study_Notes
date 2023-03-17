@@ -12,6 +12,16 @@
 
 ## 6- profiler火焰图
 
+| profiler命令                | profiler名字作用                   |
+| --------------------------- | ---------------------------------- |
+| profiler start              | 启动profiler, 默认生成CPU 的火焰图 |
+| profiler list               | 显示所有支持的事件                 |
+| profiler status             | 查看profiler的状态，运行的时间     |
+| profiler getSamples         | 获取已经采集的sample的数量         |
+| profiler stop               | 停止profiler 默认格式svg           |
+| profiler stop --format html | 指定输出目录和输出格式             |
+|                             |                                    |
+
 
 
 ## 7- 总结
