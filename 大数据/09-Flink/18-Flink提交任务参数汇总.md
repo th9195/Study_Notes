@@ -30,21 +30,21 @@ bin/flink run \
 - **state.backend.incremental=true**
   - 增量；
 - **state.backend.local-recovery=true**
-  - 本地回复；
+  - 本地恢复 ；
 - **state.backend.rocksdb.predefined-options=SPINNING_DISK_OPTIMIZED_HIGH_MEM**
-  - 预定义选项；
+  - 预定义选项 ；
 - **state.backend.rocksdb.block.cache-size=64m**
-  - 块缓存大小；
-  - 用于优化**读**场景；
-  - 默认值8m
+  - 块缓存大小 ；
+  - 用于优化**读**场景 ；
+  - 默认值8m ；
 - **state.backend.rocksdb.writebuffer.size=128m**
-  - writebuffer大小；
-  - 用于优化**写**场景；
-  - 默认64m;
+  - writebuffer大小 ；
+  - 用于优化**写**场景 ；
+  - 默认64m ;
 - **state.backend.rocksdb.compaction.level.max-size-level-base=320m**
   - writebuffer level ；
-  - 用于优化**写**场景；
-  - 默认为256m;
+  - 用于优化**写**场景 ；
+  - 默认为256m ;
 - **state.backend.rocksdb.writebuffer.count=5**
   - writebuffer 的个数；
   - 用于优化**写**场景；
