@@ -499,8 +499,8 @@
   - **ttl K**：查看某个K剩余的存活时间
   - **select N**：切换数据库的
     - Redis默认由16个数据：db0 ~ db15，个数可以通过配置文件修改，名称不能改
-    - Redis是一层数据存储结构：**所有KV直接存储在数据库中**
-
+    - jedis客户端也提供了对应的方法，可以通过**jedis.select(4);** 选择对应的数据库
+- Redis是一层数据存储结构：**所有KV直接存储在数据库中**
     - 默认进入db0
   - **move key N**：将某个Key移动到某个数据库中
 
@@ -1371,6 +1371,7 @@ node1:6379>
   node1:6379> pfcount pf3
   (integer) 6
   node1:6379> 
+  ```
 ```
   
 - **小结**
@@ -1407,7 +1408,7 @@ node1:6379>
         prep.execute(SQL)
         //todo:3-释放连接
         conn.close
-        ```
+```
 
   - Jedis依赖
 
@@ -1459,6 +1460,8 @@ node1:6379>
           JedisPool jedisPool = new JedisPool(config,"node1",6379);
           //从线程池中获取连接
           jedis = jedisPool.getResource();
+          //选择databases  jedis客户端也提供了对应的方法，可以通过jedis.select(4); 选择对应的数据库
+          jedis.select(0)
       }
   
       @After
