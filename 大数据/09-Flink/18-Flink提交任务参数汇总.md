@@ -5,22 +5,25 @@ bin/flink run \
 -t yarn-per-job \
 -d \
 -p 5 \
--Drest.flamegraph.enabled=true \
--Dyarn.application.queue=test \
--Djobmanager.memory.process.size=1024mb \
--Dtaskmanager.memory.process.size=4096mb \
--Dtaskmanager.numberOfTaskSlots=2 \
--Dstate.backend.incremental=true \
--Dstate.backend.local-recovery=true \
--Dstate.backend.rocksdb.predefined-options=SPINNING_DISK_OPTIMIZED_HIGH_MEM \
--Dstate.backend.rocksdb.block.cache-size=64m \
--Dstate.backend.rocksdb.writebuffer.size=128m \
--Dstate.backend.rocksdb.compaction.level.max-size-level-base=320m \
--Dstate.backend.rocksdb.writebuffer.count=5 \
--Dstate.backend.rocksdb.thread.num=4 \
--Dstate.backend.rocksdb.writebuffer.number-to-merge=3 \
--Dstate.backend.rocksdb.memory.partitioned-index-filters=true \
--Dstate.backend.latency-track.keyed-state-enabled=true \
+-D rest.flamegraph.enabled=true \
+-D yarn.application.queue=test \
+-D taskmanager.memory.jvm-metaspace.size=512m \
+-D taskmanager.memory.jvm-overhead.max=2048m \
+-D jobmanager.memory.process.size=1024mb \
+-D taskmanager.memory.process.size=4096mb \
+-D taskmanager.numberOfTaskSlots=2 \
+-D state.backend.incremental=true \
+-D state.backend.local-recovery=true \
+-D state.backend.rocksdb.predefined-options=SPINNING_DISK_OPTIMIZED_HIGH_MEM \
+-D state.backend.rocksdb.block.cache-size=64m \
+-D state.backend.rocksdb.writebuffer.size=128m \
+-D state.backend.rocksdb.compaction.level.max-size-level-base=320m \
+-D state.backend.rocksdb.writebuffer.count=5 \
+-D state.backend.rocksdb.thread.num=4 \
+-D state.backend.rocksdb.writebuffer.number-to-merge=3 \
+-D state.backend.rocksdb.memory.partitioned-index-filters=true \
+-D state.backend.latency-track.keyed-state-enabled=true \
+-D pipeline.object-reuse=true \
 -c com.atguigu.flink.tuning.RocksdbTuning \
 /opt/module/flink-1.13.1/myjar/flink-tuning-1.0-SNAPSHOT.jar
 ```
@@ -64,6 +67,12 @@ bin/flink run \
 - **state.backend.latency-track.keyed-state-enabled=true**
   - 开启访问状态的性能监控；
   - 1.13 才有；
+- **pipeline.object-reuse=true**
+  - 开启对象重用
+  - env.getConfig().enableObjectReuse();
+  - 必要条件二选一；（否则可能会有线程安全的问题）
+    - 确保下游 Function 只有一种；
+    - 下游的 Function 均不会改变对象内部的值；
 
 ## 1- 打印GC 日志信息
 

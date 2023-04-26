@@ -29,7 +29,7 @@
 
 ## 1-3 Spark 框架模块
 
-- **Spark Coke； **
+- **Spark Core； **
   - 包含**数据结构RDD、任务调度、内存管理、错误恢复、与存储系统交互**等模块
 - **Spark SQL；**
   - 用于操作**结构化数据**的程序包，通过 Spark SQL，我们可以使用 SQL操作数据。
@@ -286,7 +286,7 @@ Action:返回值不是RDD（无返回值或者返回其它的）
 
 - **DAG 叫做有向无环图；**
 - **是根据RDD的一个依赖关系构建的，RDD的迭代关系图；**
-- **一个Action算子就是一个DAG/JOb;**
+- **一个Action算子就是一个DAG/Job;**
 - **DAG 根据宽依赖划分Stage;**
 - **Stage中的Task分发给Executor去运行计算；**
 
