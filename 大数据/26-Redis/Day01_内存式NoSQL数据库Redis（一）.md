@@ -500,15 +500,45 @@
   - **select N**：切换数据库的
     - Redis默认由16个数据：db0 ~ db15，个数可以通过配置文件修改，名称不能改
     - jedis客户端也提供了对应的方法，可以通过**jedis.select(4);** 选择对应的数据库
+
 - Redis是一层数据存储结构：**所有KV直接存储在数据库中**
     - 默认进入db0
+
   - **move key N**：将某个Key移动到某个数据库中
 
 - **flushdb**：清空当前数据库的所有Key
 
   - **flushall**：清空所有数据库的所有Key
 
+- **批量上次key**
+
+  ``` shell
+  ./redis-cli -h IP -p PORT -a PASSWORD keys 'key*' | xargs  ./redis-cli -h IP  -p PORT -a PASSWORD del
+  
+  IP:redis服务器的IP地址
+  PORT:redis服务的端口
+  PASSWORD ：redis服务的密码
+  
+  xargs：将所有数据变为单行
+  | ：管道符，将上一次查询的结果作为下一次的参数
+  
+  ./redis-cli -p 6679 keys 'advancedIndicator*' | xargs  ./redis-cli  -p 6679  del
   ```
+
+  
+
+  
+
+  
+
+  ```
+  [hadoop@fdc12 src]$ pwd
+  /data/hzw/app/redis-6.0.4/src
+  [hadoop@fdc12 src]$ ./redis-cli -p 6679    // 登录客户端 port 默认是6379
+  127.0.0.1:6679> select 0
+  OK
+  127.0.0.1:6679> 
+  
   node1:6379> keys *
   (empty list or set)
   node1:6379> 
@@ -672,6 +702,11 @@
 
 
 ```
+127.0.0.1:6679> keys advancedIndicator_*  ##根据前缀查询key 
+"advancedIndicator_movAvg|174725" 
+"advancedIndicator_avg|174725|"
+"advancedIndicator_drift|174725" "advancedIndicator_driftPercent|174725"
+127.0.0.1:6679> 
 node1:6379> keys *
 (empty list or set)
 node1:6379> set s1 hadoop
@@ -1333,31 +1368,38 @@ node1:6379>
     - Set集合：数据量相对小并且结果要求精准
   
 - pfadd：用于添加元素
-  
+
   - 语法：pfadd  K   e1 e2 e3……
-  
+
       ```properties
       pfadd pf1 userid1 userid1 userid2 userid3 userid4 userid3 userid4
       pfadd pf2 userid1 userid2 userid2 userid5 userid6
+      ```
     ```
   
+    ```
+
 - pfcount：用于统计个数
-  
+
   - 语法：pfcount K
-  
+
       ```
       pfcount pf1
+      ```
     ```
   
+    ```
+
 - pfmerge：用于实现集合合并
-  
+
   - 语法：pfmerge  pfrs  pf1 pf2……
-  
+
       ```
       pfmerge pf3 pf1 pf2
+      ```
     ```
   
-  ```properties
+  ​```properties
   node1:6379> pfadd pf1 userid1 userid1 userid2 userid3 userid4 userid3 userid4
   (integer) 1
   node1:6379> pfcount pf1
@@ -1371,7 +1413,7 @@ node1:6379>
   node1:6379> pfcount pf3
   (integer) 6
   node1:6379> 
-  ```
+    ```
 ```
   
 - **小结**

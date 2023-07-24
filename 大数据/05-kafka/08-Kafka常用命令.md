@@ -23,7 +23,7 @@ sh kafka-consumer-groups.sh --new-consumer --bootstrap-server 172.21.51.109:9092
 
 # 4- 发送消息
 
-bin/kafka-console-producer.sh --bootstrap-server fdc04:9092 --topic first 
+bin/kafka-console-producer  --broker-list fdc04:9092 --topic first 
 >hello world 
 >hello kafka 
 
@@ -45,6 +45,12 @@ bin/kafka-console-consumer.sh --bootstrap-server fdc04:9092 --from-beginning --t
 cat data.txt |  kafka-console-producer --broker-list 172.24.103.8:9092 --topic test_taos | > out.txt
 
 
+
+/opt/cloudera/parcels/KAFKA/bin/kafka-console-producer --broker-list fdc12:9092 --topic test < out.txt
+
+
+
+
 # 8- 查看文件行数
 wc -l data.txt
 
@@ -58,6 +64,8 @@ bin/kafka-topics.sh --zookeeper hadoop102:2181 --list
 
 
 
+# 11- 查看消费者组消费的情况
 
+/opt/cloudera/parcels/KAFKA/bin/kafka-consumer-groups --bootstrap-server fdc12:9092,fdc13:9092,fdc14:9092 --group  consumer-group-mainfab-write-raw-data-job --describe
 
 
