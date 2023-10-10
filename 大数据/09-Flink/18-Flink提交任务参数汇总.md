@@ -116,3 +116,17 @@ bin/flink run \
 
 
 
+## 5- Flink Job 只打印 error级别的日志（log4j)
+
+- 修改启动脚本
+
+```shell
+-yD rootLogger.level="ERROR"
+```
+
+- 修改flink配置文件中的log4j.properties
+
+![1695257642257](assets/1695257642257.png)
+
+![1695257702372](assets/1695257702372.png)
+

@@ -3,21 +3,21 @@
 
 
 # 2- 创建topic
-/opt/cloudera/parcels/KAFKA/bin/kafka-topics  --create  --zookeeper fdc04:9092  --topic test01 --partitions 3  --replication-factor 3
+/opt/cloudera/parcels/KAFKA/bin/kafka-topics  --create  --zookeeper fdc02:**2181**  --topic test0222 --partitions 3  --replication-factor 3
 
 
 # 3- 查看所有 topic
-/opt/cloudera/parcels/KAFKA/bin/kafka-topics  --describe  --zookeeper fdc04:2181  --topic  mainfab_long_run_controlplan_config_topic
+/opt/cloudera/parcels/KAFKA/bin/kafka-topics  --zookeeper  fdc02:2181 --list 
 
 # 4- 查看所有的groupId
 
-sh kafka-consumer-groups.sh --new-consumer --bootstrap-server 172.21.51.109:9092 --list 
+kafka-consumer-groups --bootstrap-server fdc04:9092,fdc05:9092,fdc06:9092 --list
 
 
 
 # 5- **查看指定groupid的详细信息** 
 
-sh kafka-consumer-groups.sh --new-consumer --bootstrap-server 172.21.51.109:9092 --group point_expire_group --describe 
+kafka-consumer-groups.sh  --bootstrap-server fdc04:9092,fdc05:9092,fdc06:9092 --describe  --group mainfabcore
 
 
 
@@ -31,10 +31,6 @@ bin/kafka-console-producer  --broker-list fdc04:9092 --topic first
 
 # 5- 实时消费数据
 /opt/cloudera/parcels/KAFKA/bin/kafka-console-consumer --bootstrap-server fdc04:9092 --topic mainfab_data_topic  
-
-/opt/cloudera/parcels/KAFKA/bin/kafka-console-consumer --bootstrap-server fdc04:9092 --topic mainfab_long_run_controlplan_config_topic
-
-/opt/cloudera/parcels/KAFKA/bin/kafka-console-consumer --bootstrap-server fdc04:9092 --topic mainfab_long_run_window_config_topic
 
 # 6- from-beginning 消费数据
 bin/kafka-console-consumer.sh --bootstrap-server fdc04:9092 --from-beginning --topic first
@@ -55,12 +51,12 @@ cat data.txt |  kafka-console-producer --broker-list 172.24.103.8:9092 --topic t
 wc -l data.txt
 
 # 9- 查看topic的offset
-kafka-run-class kafka.tools.GetOffsetShell --broker-list 172.24.103.8:9092 --topic test_taos
+kafka-run-class kafka.tools.GetOffsetShell --broker-list fdc04:9092 --topic test_taos
 
 
 
 # 10- 查看当前服务器中所有的topic
-bin/kafka-topics.sh --zookeeper hadoop102:2181 --list
+bin/kafka-topics.sh --zookeeper  fdc02:2181 --list
 
 
 
@@ -68,4 +64,15 @@ bin/kafka-topics.sh --zookeeper hadoop102:2181 --list
 
 /opt/cloudera/parcels/KAFKA/bin/kafka-consumer-groups --bootstrap-server fdc12:9092,fdc13:9092,fdc14:9092 --group  consumer-group-mainfab-write-raw-data-job --describe
 
+
+
+# 12- 修改分区数量
+
+./bin/kafka-topics.sh --zookeeper  fdc02:2181 -alter --partitions 3 --topic mainfab_redis_data_topic
+
+
+
+# 13 -可以单独查询一下topic的分区状态
+
+ ./bin/kafka-topics.sh --describe --zookeeper fdc02:2181 --topic mainfab_redis_data_topic
 
