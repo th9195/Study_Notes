@@ -2,6 +2,73 @@
 
 
 
+# 0- Docker安装
+
+## 0-1 验证Linux内核版本
+
+- Docker要求Linux的**Kernel**版本**必须大于3.8**，推荐使用**3.10及更高**，所以需要先验证CentOS的内核是否大于3.8。
+
+| uname -r                |
+| ----------------------- |
+| ![img](assets/wps1.jpg) |
+
+## 0-2 卸载已安装的Docker
+
+```shell
+#1- 卸载 Docker 引擎
+sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+                  
+# 2- 删除 Docker 数据目录
+sudo rm -rf /var/lib/docker
+
+# 3- 查看是否有漏掉的docker依赖
+yum list installed | grep docker
+
+# 4- 漏掉的docker依赖
+yum remove docker-buildx-plugin.x86_64 
+
+
+```
+
+
+
+
+
+## 0-3 安装yum工具包和存储驱动
+
+```shell
+yum install -y yum-utils device-mapper-persistent-data lvm2
+```
+
+## 0-4 安装Docker的yum源
+
+```shell
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+# 如果连接超时，可以使用alibaba源
+
+yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+```
+
+
+
+## 0-5 安装Docker-19.03.5
+
+```shell
+yum install docker-ce docker-ce-cli containerd.io
+```
+
+
+
+
+
 # 1- Docker的启动和停止
 
 | 操作               | 指令                     |
@@ -206,7 +273,7 @@ docker run -di --privileged=true -v /usr/local/myhtml:/usr/local/myhtml --name=m
 - [**可以获取ip Gateway 等相关详细信息**]()
 
 ```shell
-# 查看容器详细信息
+ # 查看容器详细信息
 docker inspect 容器名称（容器id）
 
 # 查看容器IP
@@ -486,7 +553,7 @@ docker build -t myApache:1 .
 
 ## 12-3 启动镜像
 
-``` shell
+​``` shell
 docker run -d -p 80:80 749ccfa6ab67
 ```
 

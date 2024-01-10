@@ -118,10 +118,11 @@ https://ci.apache.org/projects/flink/flink-docs-release-1.13/deployment/config.h
       ``` properties
       - taskmanager.memory.managed.fraction，默认 0.4 
       - taskmanager.memory.managed.size，默认 none 
-      - 如果 size 没指定，则等于 Flink 内存*fractio
+      - 如果 size 没指定，则等于 Flink 内存*fraction
       ```
 
-      
+
+
 
 #### 1-1-1-2 案例分析
 

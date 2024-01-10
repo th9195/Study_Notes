@@ -580,7 +580,7 @@ val spark: SparkSession = SparkSession
 # 22- SparkSQL中的如何动态增加Schema?
 
 - **Spark中StructedType对象就是Schema ；**
-- **Spark中StructedField对象封装每个字段的信息；**
+- **Spark中StructedField对象封装每个字段的信息；** 
 
 - **StructedType**(**StructedField**(data,name,nullable)::Nil)；
 - **new StructedType()**.add(data,name,nullable).add();
