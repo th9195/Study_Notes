@@ -1,5 +1,11 @@
 # 输出
 
+## 0- print函数介绍
+
+![1725604010348](assets/1725604010348.png)
+
+
+
 ## 1- 普通输出
 
 ``` python
@@ -26,6 +32,29 @@ print("name = %s ;age = %s" %(name,age))
 结果：
 	name =  Tom ;age =  29
 ```
+
+
+
+```python
+
+year = 2024
+month = 2
+day = 20
+week = "一"
+weather = "晴"
+temp = 19.4
+
+# %02d 表示 占用2个字符， 不够的用 0 填充
+# %.2f 表示 保留小数点2位 
+print("%d年 %02d 月 %2d 日 ; 星期%s 天气:%s 温度 %.2f"%(year,month,day,week,weather,temp))
+print("{}年 {} 月 {} 日 ; 星期{} 天气:{} 温度 {}".format(year,month,day,week,weather,temp))
+
+结果：
+2024年 02 月 20 日 ; 星期一 天气:晴 温度 19.40
+2024年 2 月 20 日 ; 星期一 天气:晴 温度 19.4
+```
+
+
 
 
 
