@@ -171,7 +171,7 @@ if __name__ == '__main__':
 
 
 
-## raise
+## raise （手动抛出一个异常）
 
 ``` python
 # -*- coding: utf-8 -*-
