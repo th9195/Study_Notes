@@ -32,6 +32,8 @@ bin/kafka-console-producer  --broker-list fdc04:9092 --topic first
 # 5- 实时消费数据
 /opt/cloudera/parcels/KAFKA/bin/kafka-console-consumer --bootstrap-server fdc04:9092 --topic mainfab_data_topic  
 
+
+
 # 6- from-beginning 消费数据
 bin/kafka-console-consumer.sh --bootstrap-server fdc04:9092 --from-beginning --topic first
 
